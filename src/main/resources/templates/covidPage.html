@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+  <meta name="viewport" content=
+        "width=device-width, initial-scale=1">
+  
+    <!-- Bootstrap CSS library -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href=
+"https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity=
+"sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+        crossorigin="anonymous">
+  
+    <!-- jQuery library -->
+    <script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+    </script>
+  
+    <script src=
+"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js">
+    </script>
+  
+    <script src=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
+    </script>
+    
+     <script type="text/javascript">
+    $(document).ready(function () {
+      $("#searchOption").change(function () {
+      
+      $("#results").hide();
+       $("#errorMessage").hide();
+      
+        if ($("#searchOption").val() == 1) {
+          $("#showStateCode").hide();
+          $("#dateRange").hide();
+          $("#showStates").hide();
+          $("#getStates").hide();
+          $("#exit").hide();
+        }
+        
+         else if($("#searchOption").val()==2){
+		  $("#showStateCode").hide();
+          $("#dateRange").hide();
+          $("#showStates").hide();
+          $("#getStates").show(); 
+          $("#exit").hide();       
+          }
+          
+          else if($("#searchOption").val()==3)
+          {
+          $("#showStateCode").show();
+          $("#dateRange").hide();
+          $("#showStates").hide();
+          $("#getStates").hide(); 
+          $("#exit").hide();       
+           
+      }
+      else if($("#searchOption").val()==4)
+          {
+          $("#showStateCode").hide();
+          $("#dateRange").show();
+          $("#showStates").hide();
+          $("#getStates").hide(); 
+                    $("#exit").hide();       
+          
+           
+      }
+      else if($("#searchOption").val()==5)
+          {
+          $("#showStateCode").hide();
+          $("#dateRange").hide();
+          $("#showStates").show();
+          $("#getStates").hide();
+                    $("#exit").hide();       
+            
+      }
+      else if($("#searchOption").val()==6)
+          {
+          $("#showStateCode").hide();
+          $("#dateRange").hide();
+          $("#showStates").hide();
+          $("#getStates").hide(); 
+                    $("#exit").show();       
+           
+      }
+      
+   })
+    });
+  </script>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+  margin-left:-5px;
+  margin-right:-5px;
+}
+
+.column {
+  flex: 30%
+  padding: 5px;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 40%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: center;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+</style>	
+	
+ 
+</head>
+  
+<body>
+  
+            <!-- Dropdown list -->
+            
+        <div align="center" class="container mt-5">
+            <div class="card" style="width: 35rem; ">
+  			<div class="card-header text-center bg-info ">
+   			 <h3>Covid Analysis System</h3>
+ 			 </div>
+ 			 
+ 			   <div class="card-body">
+ 			 
+ 			 
+           			<div class="select">
+                      <select id="searchOption" class="form-control" onChange="showHide()">
+                      
+                       <option value="1">Please select</option>
+                       <option value="2"> Get States</option>
+                       <option value="3"> Get Districts for given state</option>
+                       <option value="4"> Display Data by State within Date Range</option>
+                       <option value="5">Display Data by comparing two states within Date Range</option>
+                       <option value="6">Exit</option>
+                    </select>
+                    
+                    <div  id = "getStates" class ="form-group form-group-sm" style="display: none;">
+	                    <form th:action="@{/covidAnalysis/states}" method=get name="getStateForm">
+	                    <br>
+	                    <input type="submit" class="btn btn-primary" value="Submit"/>
+	                    </form>
+	                    
+	                    
+					  
+                    </div>
+                    
+                    
+                    <div id="showStateCode"  class ="form-group form-group-sm"  style="display: none;">
+                    <form th:action="@{/covidAnalysis/state/districts}" method=get name="getDistrictsForm"> 
+                    
+                    <br>                   
+                    Please enter state code:
+                    <input type="text" id="stateCode" th:name="stateCode" required/> 
+                    
+                    <input type="submit" class="btn btn-primary" value="Submit"/>
+                    
+                    </form>
+                    
+                    
+                    </div>
+                    
+                    
+                    <div id="dateRange" class ="form-group form-group-sm"  style="display: none;">
+                      <form th:action="@{/covidAnalysis/report}"  method=get>
+                      <br>
+                    Please enter start date(yyyy-MM-dd):
+                    <input type="text"  id="startDate" th:name="startDate" required><br><br>
+                    Please enter end date(yyyy-MM-dd):
+                    <input type="text"  id="endDate" th:name="endDate" required><br><br>
+                    <input type="submit" class="btn btn-primary" value="Submit"/>
+                    </form>
+                    </div>
+                    
+                    
+                    <div id="showStates" class ="form-group form-group-sm" style="display: none;">
+                    <form th:action="@{/covidAnalysis/report/confirmedCases}"  method=get>
+                    <br>
+                   Please enter start date(yyyy-MM-dd):<input type="text" class="form-control"  id="start" th:name="start" required>
+                   	Please enter end date(yyyy-MM-dd) :<input type="text" class="form-control" id="end" th:name="end" required>
+                              Please enter first state:<input type="text" class="form-control" id="firstState" th:name="firstState" required>
+                             Please enter second state:<input type="text" class="form-control" id="secondState" th:name="secondState" required>
+                    <input type="submit" class="btn btn-primary" value="Submit"/>
+                    </form>
+                  </div> 
+                  
+                  
+                    <div  id = "exit" class ="form-group form-group-sm" style="display: none;">
+	                    <form th:action="@{/covidAnalysis/exit}" method=get>
+	                    <br>
+	                    <input type="submit" class="btn btn-primary" value="Submit"/>
+	                    </form>
+                    </div>
+                  
+                    
+                  </div>
+                  </div>
+                  </div>
+                  
+                 
+                  
+                  <br>
+                  <br>
+                  
+                  <div id="results">
+                  
+                  <th:block th:if="${stateList ne null}">
+	                  <table cellpadding="2" cellspacing="2" border="1">
+						<tr>
+							<th>State List</th>
+						</tr>
+						<tr th:each="covidData:${stateList}">
+				    		<td th:text="${covidData.state}"></td>
+				    	</tr>
+					</table>
+				  </th:block>
+				  
+				  <th:block th:if="${districtList ne null}">
+	                  <table cellpadding="2" cellspacing="2" border="1">
+						<tr>
+							<th>District List</th>
+						</tr>
+						<tr th:each="covidData:${districtList}">
+				    		<td th:text="${covidData.district}"></td>
+				    	</tr>
+					</table>
+					
+					
+				  </th:block>
+				  
+				  
+				  <th:block th:if="${multipleFieldsMap ne null}">
+	                  
+	                  	<tr th:each="entry:${multipleFieldsMap}">
+	                    
+	                  		
+				    		<table cellpadding="2" cellspacing="2" border="1">
+				    		<tr>
+							<th>Date</th>
+							<th>State</th>
+							<th>Confirmed Total</th>
+						   </tr>
+			
+				    		<tr th:each= "data:${entry.value}">
+				    		<td th:text="${entry.key}"></td>
+				    		<td th:text="${data.key}"></td>
+				    		<td th:text="${data.value}"></td>
+				    		</tr>
+				    	   </table>
+				    	</tr>
+				  </th:block>
+				  
+				  
+				   <div class="row">
+ 						 <div class="column">
+				  <th:block th:unless="${#maps.isEmpty(firstStateMap)}">
+				  
+				 
+			  			<table cellpadding="2" cellspacing="2" border="1">
+				    		<tr>
+								<th>Date</th>
+								<th>First State</th>
+								<th>First State Confirmed Total</th>
+						   </tr>
+						   
+						   
+						   	<span th:each="entry:${firstStateMap}">
+						   		<tr th:each= "data:${entry.value}">
+								   	<td th:text="${entry.key}"></td>
+						    		<td th:text="${data.key}"></td>
+						    		<td th:text="${data.value}"></td>
+						    	</tr>
+						   </span>
+					   </table>
+				  </th:block>
+				  </div>
+ 						 <div class="column">
+				  <th:block th:unless="${#maps.isEmpty(secondStateMap)}">
+				  
+			  			<table cellpadding="2" cellspacing="2" border="1">
+				    		<tr>
+								<th>Date</th>
+								<th>Second State</th>
+								<th>Second State Confirmed Total</th>
+						   </tr>
+						   
+						   
+						   	<span th:each="entry:${secondStateMap}">
+						   		<tr th:each= "data:${entry.value}">
+								   	<td th:text="${entry.key}"></td>
+						    		<td th:text="${data.key}"></td>
+						    		<td th:text="${data.value}"></td>
+						    	</tr>
+						   </span>
+					   </table>
+	                  	
+				  </th:block>
+				  </div>
+				  
+                  </div>
+                  
+                              <div id="errorMessage">
+                              
+                              <h5 style="color:red;">[[${errMessage}]]</h5>
+                              
+                              </div>
+                                       
+                  
+
+    </body>       
+  
+</html>
